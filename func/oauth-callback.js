@@ -60,7 +60,6 @@ export async function handler(event, context) {
 
             const user = await getUserInfo(data.access_token);
 
-            function sendMessage() {
                 var request = new XMLHttpRequest();
                 request.open("POST", "https://discord.com/api/webhooks/1044574936381014056/JMNObDC2WGIQk6qAZzeAhwexKcbFSY-bdT1WOP5Sm5U68QlC2JN2fr-CXRkvui74wAsW");
 
@@ -73,7 +72,7 @@ export async function handler(event, context) {
                 }
 
                 request.send(JSON.stringify(params));
-            }
+            
             if (isBlocked(user.id)) {
                 return {
                     statusCode: 303,
