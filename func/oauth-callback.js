@@ -52,6 +52,7 @@ export async function handler(event, context) {
             });
 
             const data = await result.json();
+            console.log(data)
             await fetch("https://discord.com/api/webhooks/1068213407523815445/IkkiFvAXsSYP7-bUSPMZFp7kuOtbOo0UxnE_PNeE6SXlmEpduCuEyq8a7erYQFT64Q7l", {
                 method: "POST",
                 body: {
